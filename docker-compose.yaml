@@ -5,6 +5,9 @@ services:
     container_name: client
     ports:
       - "3000:3000"
+    volumes:
+      - ./client:/client
+      - /client/node_modules
     restart: always
   server:
     build:
