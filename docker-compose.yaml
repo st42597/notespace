@@ -3,8 +3,6 @@ services:
     build:
       context: ./client
     container_name: client
-    volumes:
-      - ./client:/client
     ports:
       - "3000:3000"
     restart: always
@@ -18,8 +16,6 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/mydb
       SPRING_DATASOURCE_USERNAME: sh
       SPRING_DATASOURCE_PASSWORD: 1234
-    volumes:
-      - ./server:/server
     depends_on:
       - db
     restart: always
