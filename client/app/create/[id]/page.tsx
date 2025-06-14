@@ -1,22 +1,23 @@
 'use client';
-import { useParams, redirect } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import axios from 'axios';
 
 export default function CreatePage() {
   const { id } = useParams();
+  const router = useRouter();
   const [noteName, setNoteName] = useState<string>('');
   const [noteDescription, setNoteDescription] = useState<string>('');
 
-  const handleNoteNameChange =
-    () => (e: React.ChangeEvent<HTMLInputElement>) => {
-      setNoteName(e.target.value);
-    };
+  const handleNoteNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNoteName(event.target.value);
+  };
 
-  const handleNoteDescriptionChange =
-    () => (e: React.ChangeEvent<HTMLInputElement>) => {
-      setNoteDescription(e.target.value);
-    };
+  const handleNoteDescriptionChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setNoteDescription(event.target.value);
+  };
 
   const handleCreatePage = () => {
     axios
@@ -27,7 +28,7 @@ export default function CreatePage() {
       })
       .then((response) => {
         if (response.status === 200) {
-          redirect(`/${id}`);
+          router.push(`/${id}`);
         } else {
           console.error('페이지 생성 실패:', response.data);
         }
