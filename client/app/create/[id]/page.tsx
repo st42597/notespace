@@ -1,13 +1,30 @@
 'use client';
 import { useParams, redirect } from 'next/navigation';
+import { useState } from 'react';
 import axios from 'axios';
 
 export default function CreatePage() {
   const { id } = useParams();
+  const [noteName, setNoteName] = useState<string>('');
+  const [noteDescription, setNoteDescription] = useState<string>('');
+
+  const handleNoteNameChange =
+    () => (e: React.ChangeEvent<HTMLInputElement>) => {
+      setNoteName(e.target.value);
+    };
+
+  const handleNoteDescriptionChange =
+    () => (e: React.ChangeEvent<HTMLInputElement>) => {
+      setNoteDescription(e.target.value);
+    };
 
   const handleCreatePage = () => {
     axios
-      .post(`/api/notes/${id}`)
+      .post(`/api/notes`, {
+        slug: id,
+        name: noteName,
+        description: noteDescription,
+      })
       .then((response) => {
         if (response.status === 200) {
           redirect(`/${id}`);
@@ -23,8 +40,22 @@ export default function CreatePage() {
   return (
     <div className="mx-auto w-[90%] max-w-[800px] py-60">
       <h1 className="font-semibold">NoteSpace Not Found</h1>
-      <div>새 페이지를 생성하시겠습니까?</div>
-      <div className="mt-16 flex justify-end">
+      <div>새 노트를 생성하시겠습니까?</div>
+      <div className="my-4 flex flex-col gap-2">
+        <input
+          className="w-[200px] rounded-lg border-1 border-solid p-2 focus:outline-none"
+          placeholder="노트 이름"
+          value={noteName}
+          onChange={handleNoteNameChange}
+        ></input>
+        <input
+          className="w-[200px] rounded-lg border-1 border-solid p-2 focus:outline-none"
+          placeholder="노트 설명"
+          value={noteDescription}
+          onChange={handleNoteDescriptionChange}
+        ></input>
+      </div>
+      <div className="mt-8 flex justify-end">
         <div
           className="inline-block cursor-pointer rounded-2xl bg-blue-500 px-6 py-4 text-white"
           onClick={handleCreatePage}
