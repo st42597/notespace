@@ -61,7 +61,7 @@ export default function NotePage() {
           // note가 없으면 redirect
           router.replace(`/create/${id}`);
         }
-        // console.error('노트 데이터를 가져오는 중 오류 발생:', error);
+        console.error('노트 데이터를 가져오는 중 오류 발생:', error);
       }
     };
     const fetchMarkdown = async () => {
@@ -71,7 +71,7 @@ export default function NotePage() {
         const { content } = response.data;
         setMarkdownContent(content);
       } catch (error) {
-        // console.error('마크다운 데이터를 가져오는 중 오류 발생:', error);
+        console.error('마크다운 데이터를 가져오는 중 오류 발생:', error);
       }
     };
 

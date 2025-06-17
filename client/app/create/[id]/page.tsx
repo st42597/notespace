@@ -41,11 +41,11 @@ export default function CreatePage() {
         if (response.status === 200) {
           router.replace(`/${id}`);
         } else {
-          // console.error('페이지 생성 실패:', response.data);
+          console.error('페이지 생성 실패:', response.data);
         }
       })
       .catch((error) => {
-        // console.error('페이지 생성 중 오류 발생:', error);
+        console.error('페이지 생성 중 오류 발생:', error);
       });
   };
 
