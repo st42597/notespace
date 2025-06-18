@@ -2,9 +2,7 @@ services:
   client:
     build:
       context: ./client
-    container_name: client
-    ports:
-      - "3000:3000"
+    container_name: notespace-client
     volumes:
       - ./client:/client
       - /client/node_modules
@@ -12,9 +10,7 @@ services:
   server:
     build:
       context: ./server
-    container_name: server
-    ports:
-      - "5000:5000"
+    container_name: notespace-server
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/mydb
       SPRING_DATASOURCE_USERNAME: sh
@@ -24,9 +20,6 @@ services:
     restart: always
   db:
     image: postgres:latest
-    container_name: db
-    ports:
-      - "5432:5432"
     environment:
       POSTGRES_USER: sh
       POSTGRES_PASSWORD: 1234
@@ -36,12 +29,11 @@ services:
       - ./postgreSQL/init.sql:/docker-entrypoint-initdb.d/init.sql
   nginx:
     image: nginx:latest
-    container_name: nginx
+    container_name: notespace-nginx
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
     ports:
-      - "80:80"
-      - "443:443"
+      - "8081:80"
     depends_on:
       - client
       - server
