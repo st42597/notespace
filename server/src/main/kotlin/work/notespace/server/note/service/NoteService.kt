@@ -3,7 +3,9 @@ package work.notespace.server.note.service
 import jakarta.persistence.EntityNotFoundException
 import jakarta.transaction.Transactional
 import org.springframework.data.domain.PageRequest
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
+import org.springframework.web.server.ResponseStatusException
 import work.notespace.server.note.dto.NoteDto
 import work.notespace.server.note.entity.Markdown
 import work.notespace.server.note.entity.Note
@@ -17,8 +19,7 @@ class NoteService(
 ) {
     fun getNote(slug: String): NoteDto {
         val note = noteRepository.findBySlug(slug)
-            ?: throw EntityNotFoundException("Note not found for slug='$slug'")
-
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Note not found for slug='$slug'")
         return note.toDto()
     }
 
