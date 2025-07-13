@@ -10,7 +10,6 @@ import work.notespace.server.note.service.NoteService
 @Validated
 class NoteController(
     private val noteService: NoteService,
-    // private val markdownService: MarkdownService
 ) {
     @GetMapping("/notes")
     fun getNotes(): List<NoteDto> {
@@ -30,5 +29,19 @@ class NoteController(
         @RequestBody note: NoteDto
     ): NoteDto {
         return noteService.createNote(note)
+    }
+
+    @GetMapping("/notes/recent-created")
+    fun getRecentCreatedNotes(
+        @RequestParam(defaultValue = "10") limit: Int
+    ): List<NoteDto> {
+        return noteService.getRecentCreatedNotes(limit)
+    }
+
+    @GetMapping("/notes/recent-updated")
+    fun getRecentUpdatedNotes(
+        @RequestParam(defaultValue = "10") limit: Int
+    ): List<NoteDto> {
+        return noteService.getRecentUpdatedNotes(limit)
     }
 }

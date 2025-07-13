@@ -2,6 +2,7 @@ package work.notespace.server.note.service
 
 import jakarta.persistence.EntityNotFoundException
 import jakarta.transaction.Transactional
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import work.notespace.server.note.dto.NoteDto
 import work.notespace.server.note.entity.Markdown
@@ -42,5 +43,15 @@ class NoteService(
 
     fun deleteNote(slug: String) {
         noteRepository.deleteById(slug)
+    }
+
+    fun getRecentCreatedNotes(limit: Int = 10): List<NoteDto> {
+        val pageRequest = PageRequest.of(0, limit)
+        return noteRepository.findTopNByOrderByCreatedAtDesc(pageRequest).map { it.toDto() }
+    }
+
+    fun getRecentUpdatedNotes(limit: Int = 10): List<NoteDto> {
+        val pageRequest = PageRequest.of(0, limit)
+        return noteRepository.findTopNByOrderByUpdatedAtDesc(pageRequest).map { it.toDto() }
     }
 }
