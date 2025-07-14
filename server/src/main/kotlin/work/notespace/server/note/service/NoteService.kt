@@ -1,6 +1,5 @@
 package work.notespace.server.note.service
 
-import jakarta.persistence.EntityNotFoundException
 import jakarta.transaction.Transactional
 import org.springframework.data.domain.PageRequest
 import org.springframework.http.HttpStatus
@@ -48,11 +47,12 @@ class NoteService(
 
     fun getRecentCreatedNotes(limit: Int = 10): List<NoteDto> {
         val pageRequest = PageRequest.of(0, limit)
-        return noteRepository.findTopNByOrderByCreatedAtDesc(pageRequest).map { it.toDto() }
+        val ret = noteRepository.findAllByOrderByCreatedAtDesc(pageRequest).map { it.toDto() }
+        return ret
     }
 
     fun getRecentUpdatedNotes(limit: Int = 10): List<NoteDto> {
         val pageRequest = PageRequest.of(0, limit)
-        return noteRepository.findTopNByOrderByUpdatedAtDesc(pageRequest).map { it.toDto() }
+        return noteRepository.findAllByOrderByUpdatedAtDesc(pageRequest).map { it.toDto() }
     }
 }

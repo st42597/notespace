@@ -8,6 +8,6 @@ import work.notespace.server.note.entity.Note
 @Repository
 interface NoteRepository : JpaRepository<Note, String> {
     fun findBySlug(slug: String): Note?
-    fun findTopNByOrderByCreatedAtDesc(pageRequest: Pageable): List<Note>
-    fun findTopNByOrderByUpdatedAtDesc(pageRequest: Pageable): List<Note>
+    fun findAllByOrderByCreatedAtDesc(pageRequest: Pageable): List<Note>
+    fun findAllByOrderByUpdatedAtDesc(pageRequest: Pageable): List<Note>
 }
