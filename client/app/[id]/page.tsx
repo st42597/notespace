@@ -1,5 +1,5 @@
 'use client';
-import Header from './_components/header';
+import Header from './_components/Header';
 import { useParams, useRouter } from 'next/navigation';
 import { useState, useEffect, useRef } from 'react';
 import axios, { AxiosError } from 'axios';
