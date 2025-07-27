@@ -10,4 +10,5 @@ interface NoteRepository : JpaRepository<Note, String> {
     fun findBySlug(slug: String): Note?
     fun findAllByOrderByCreatedAtDesc(pageRequest: Pageable): List<Note>
     fun findAllByOrderByUpdatedAtDesc(pageRequest: Pageable): List<Note>
+    fun existsBySlug(slug: String): Boolean
 }

@@ -28,6 +28,10 @@ class NoteService(
 
     @Transactional
     fun createNote(req: NoteDto): NoteDto {
+        if (noteRepository.existsBySlug(req.slug)) {
+            throw IllegalArgumentException("A note with slug='${req.slug}' already exists")
+        }
+
         val note = Note(
             slug = req.slug,
             name = req.name,
