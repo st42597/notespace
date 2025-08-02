@@ -44,4 +44,9 @@ class NoteController(
     ): List<NoteDto> {
         return noteService.getRecentUpdatedNotes(limit)
     }
+
+    @GetMapping("/notes/random")
+    fun getRandomNote(): NoteDto {
+        return noteService.getRandomNote()
+    }
 }

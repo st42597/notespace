@@ -1,5 +1,5 @@
 'use client';
-import Header from './_components/Header';
+import NoteHeader from './_components/NoteHeader';
 import { useParams, useRouter } from 'next/navigation';
 import { useState, useEffect, useRef } from 'react';
 import axios, { AxiosError } from 'axios';
@@ -89,7 +89,7 @@ export default function NotePage() {
 
   return (
     <>
-      <Header name={noteName} description={noteDescription} />
+      <NoteHeader name={noteName} description={noteDescription} />
       <main>
         <div className="mx-auto max-w-[800px]">
           <h1>Markdown</h1>

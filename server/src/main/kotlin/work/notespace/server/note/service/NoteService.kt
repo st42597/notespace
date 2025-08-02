@@ -59,4 +59,13 @@ class NoteService(
         val pageRequest = PageRequest.of(0, limit)
         return noteRepository.findAllByOrderByUpdatedAtDesc(pageRequest).map { it.toDto() }
     }
+
+    fun getRandomNote(): NoteDto {
+        val notes = noteRepository.findAll()
+        if (notes.isEmpty()) {
+            throw ResponseStatusException(HttpStatus.NOT_FOUND, "No notes available")
+        }
+        val randomNote = notes.random()
+        return randomNote.toDto()
+    }
 }
