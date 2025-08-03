@@ -6,7 +6,7 @@ export default function Guide() {
         <h2 className="mb-2 text-xl font-semibold">🚀 NoteSpace란?</h2>
         <ul className="ml-5 list-disc">
           <li>
-            NoteSpace는 <strong>노트 기반의 정보 저장과 생성</strong>을 위한
+            NoteSpace는 <strong>Note기반의 정보 저장과 공유</strong>를 위한
             공간입니다.
           </li>
           <li>
