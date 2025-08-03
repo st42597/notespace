@@ -1,7 +1,11 @@
+'use client';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+
 export default function Create() {
-  return (
-    <div>
-      <h1>Create Page</h1>
-    </div>
-  );
+  const router = useRouter();
+  useEffect(() => {
+    router.replace('/create');
+  }, []);
+  return <div></div>;
 }
