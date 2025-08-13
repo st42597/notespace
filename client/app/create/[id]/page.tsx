@@ -1,5 +1,11 @@
 import CreateNote from '@/components/CreateNote';
 
-export default function CreatePage({ params }: { params: { id: string } }) {
-  return <CreateNote slug={params.id} />;
+export default async function CreatePage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = await params;
+
+  return <CreateNote slug={id} />;
 }
