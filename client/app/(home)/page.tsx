@@ -32,7 +32,11 @@ export default function Home() {
   useEffect(() => {
     const fetchNoteList = async () => {
       try {
-        const response = await axios.get('/api/notes/recent-updated');
+        const response = await axios.get('/api/notes/recent-updated', {
+          params: {
+            limit: 5,
+          },
+        });
         setRecentUpdatedNotes(response.data);
       } catch (error) {
         console.error('노트 목록을 가져오는 중 오류 발생:', error);
