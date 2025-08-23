@@ -1,6 +1,7 @@
 package work.notespace.server.note.controller
 
 import jakarta.validation.Valid
+import org.springframework.data.domain.Page
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import work.notespace.server.note.dto.NoteDto
@@ -12,8 +13,14 @@ class NoteController(
     private val noteService: NoteService,
 ) {
     @GetMapping("/notes")
-    fun getNotes(): List<NoteDto> {
-        return noteService.getNotes()
+    fun getNotes(
+        @RequestParam(defaultValue = "0") page: Int,
+        @RequestParam(defaultValue = "10") limit: Int,
+    ): Page<NoteDto> {
+        return noteService.getNotes(
+            page = page,
+            limit = limit,
+        )
     }
 
     @GetMapping("/notes/{slug}")

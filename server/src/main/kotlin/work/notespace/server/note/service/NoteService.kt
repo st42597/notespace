@@ -1,6 +1,7 @@
 package work.notespace.server.note.service
 
 import jakarta.transaction.Transactional
+import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
@@ -22,8 +23,12 @@ class NoteService(
         return note.toDto()
     }
 
-    fun getNotes(): List<NoteDto> {
-        return noteRepository.findAll().map { it.toDto() }
+    fun getNotes(
+        page: Int,
+        limit: Int,
+    ): Page<NoteDto> {
+        val pageRequest = PageRequest.of(page, limit)
+        return noteRepository.findAll(pageRequest).map { it.toDto() }
     }
 
     @Transactional
@@ -49,13 +54,13 @@ class NoteService(
         noteRepository.deleteById(slug)
     }
 
-    fun getRecentCreatedNotes(limit: Int = 10): List<NoteDto> {
+    fun getRecentCreatedNotes(limit: Int): List<NoteDto> {
         val pageRequest = PageRequest.of(0, limit)
         val ret = noteRepository.findAllByOrderByCreatedAtDesc(pageRequest).map { it.toDto() }
         return ret
     }
 
-    fun getRecentUpdatedNotes(limit: Int = 10): List<NoteDto> {
+    fun getRecentUpdatedNotes(limit: Int): List<NoteDto> {
         val pageRequest = PageRequest.of(0, limit)
         return noteRepository.findAllByOrderByUpdatedAtDesc(pageRequest).map { it.toDto() }
     }
