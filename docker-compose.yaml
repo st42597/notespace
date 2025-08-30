@@ -9,14 +9,25 @@ services:
     restart: always
   server:
     build:
-      context: ./server
-    container_name: notespace-server
+      context: ./server/server
+    container_name: notespace-api-server
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/mydb
       SPRING_DATASOURCE_USERNAME: sh
       SPRING_DATASOURCE_PASSWORD: 1234
     ports:
       - "8088:5000" # swagger
+    depends_on:
+      - db
+    restart: always
+  llm-server:
+    build:
+      context: ./server/llm-server
+    container_name: notespace-llm-server
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/mydb
+      SPRING_DATASOURCE_USERNAME: sh
+      SPRING_DATASOURCE_PASSWORD: 1234
     depends_on:
       - db
     restart: always
