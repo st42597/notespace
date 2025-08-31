@@ -1,0 +1,58 @@
+### OS ###
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+*~
+
+### IDEs ###
+# IntelliJ IDEA / JetBrains
+.idea/
+*.iml
+out/
+build/
+
+# VS Code
+.vscode/
+
+### Build ###
+/.gradle
+/build/
+/out/
+/target/
+
+### Logs ###
+*.log
+
+### Kotlin / Java ###
+*.class
+*.jar
+*.war
+*.ear
+
+### Spring ###
+/bin/
+/tmp/
+/generated/
+
+### Environment / Config ###
+*.env
+*.local
+*.properties
+*.yml
+!application.yml
+!application.properties
+
+### Others ###
+# Maven Wrapper files (optional)
+.mvn/wrapper/maven-wrapper.jar
+
+# Gradle Wrapper logs
+.gradle/

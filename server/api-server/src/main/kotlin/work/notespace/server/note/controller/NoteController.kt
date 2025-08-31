@@ -6,6 +6,7 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import work.notespace.server.note.dto.NoteDto
 import work.notespace.server.note.service.NoteService
+import work.notespace.server.note.controller.request.NoteWithContentRequest
 
 @RestController
 @Validated
@@ -33,9 +34,14 @@ class NoteController(
     @PostMapping("/notes")
     fun createNote(
         @Valid
-        @RequestBody note: NoteDto
+        @RequestBody noteContent: NoteWithContentRequest
     ): NoteDto {
-        return noteService.createNote(note)
+        return noteService.createNote(
+            slug = noteContent.slug,
+            name = noteContent.name,
+            description = noteContent.description,
+            content = noteContent.content ?: ""
+        )
     }
 
     @GetMapping("/notes/recent-created")

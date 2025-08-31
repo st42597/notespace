@@ -7,9 +7,9 @@ services:
       - ./client:/client
       - /client/node_modules
     restart: always
-  server:
+  api-server:
     build:
-      context: ./server/server
+      context: ./server/api-server
     container_name: notespace-api-server
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/mydb
@@ -20,15 +20,17 @@ services:
     depends_on:
       - db
     restart: always
-  llm-server:
+  bot-server:
     build:
-      context: ./server/llm-server
-    container_name: notespace-llm-server
+      context: ./server/bot-server
+    container_name: notespace-bot-server
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/mydb
       SPRING_DATASOURCE_USERNAME: sh
       SPRING_DATASOURCE_PASSWORD: 1234
+      OPENAI_API_KEY: sk-lsFWczaLUnp6KRac7LsiYiA3-wkpU1NCRQ7Qy08pm3T3BlbkFJTqe9nLirXIOf2SaIvd4XWBbDuywQS69lCpOOOdWz4A
     depends_on:
+      - api-server
       - db
     restart: always
   db:
@@ -52,5 +54,6 @@ services:
       - "80:80"
     depends_on:
       - client
-      - server
+      - api-server
+      - bot-server
     restart: always

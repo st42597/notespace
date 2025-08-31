@@ -1,4 +1,4 @@
 rootProject.name = "server"
 
-include("server")
+include("api-server")
 include("bot-server")

@@ -1,10 +1,10 @@
-package work.notespace.llmserver
+package work.notespace.botserver
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class LlmServerApplicationTests {
+class BotServerApplicationTests {
 
     @Test
     fun contextLoads() {
