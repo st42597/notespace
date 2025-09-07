@@ -43,6 +43,11 @@ class NoteService(
             throw IllegalArgumentException("A note with slug='${slug}' already exists")
         }
 
+        val slugRegex = Regex("^[a-z0-9-]+$") 
+        if (!slugRegex.matches(slug)) {
+            throw IllegalArgumentException("Invalid slug: '$slug'. Only lowercase letters, numbers, and hyphens are allowed.")
+        }
+
         val note = Note(
             slug = slug,
             name = name,
@@ -65,13 +70,16 @@ class NoteService(
 
     fun getRecentCreatedNotes(limit: Int): List<NoteDto> {
         val pageRequest = PageRequest.of(0, limit)
-        val ret = noteRepository.findAllByOrderByCreatedAtDesc(pageRequest).map { it.toDto() }
-        return ret
+        val notes = noteRepository.findAllByOrderByCreatedAtDesc(pageRequest).map { it.toDto() }
+        
+        return notes
     }
 
     fun getRecentUpdatedNotes(limit: Int): List<NoteDto> {
         val pageRequest = PageRequest.of(0, limit)
-        return noteRepository.findAllByOrderByUpdatedAtDesc(pageRequest).map { it.toDto() }
+        val notes = noteRepository.findAllByOrderByUpdatedAtDesc(pageRequest).map { it.toDto() }
+        
+        return notes
     }
 
     fun getRandomNote(): NoteDto {
@@ -80,6 +88,7 @@ class NoteService(
             throw ResponseStatusException(HttpStatus.NOT_FOUND, "No notes available")
         }
         val randomNote = notes.random()
+        
         return randomNote.toDto()
     }
 }
