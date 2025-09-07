@@ -12,6 +12,7 @@ import work.notespace.server.note.entity.Markdown
 import work.notespace.server.note.entity.Note
 import work.notespace.server.note.repository.MarkdownRepository
 import work.notespace.server.note.repository.NoteRepository
+import kotlin.random.Random
 
 @Service
 class NoteService(
@@ -83,12 +84,13 @@ class NoteService(
     }
 
     fun getRandomNote(): NoteDto {
-        val notes = noteRepository.findAll()
-        if (notes.isEmpty()) {
+        val count = noteRepository.count()
+        if (count == 0L) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, "No notes available")
         }
-        val randomNote = notes.random()
-        
+        val randomOffset = Random.nextLong(count)
+        val randomNote = noteRepository.findRandomWithOffset(randomOffset.toInt())
+
         return randomNote.toDto()
     }
 }
