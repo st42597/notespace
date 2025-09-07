@@ -1,11 +1,12 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 
 export default function CreatePage({ slug }: { slug: string }) {
   const router = useRouter();
   const [noteId, setNoteId] = useState<string>(slug);
+  const [noteIdErrorMessage, setNoteIdErrorMessage] = useState<string>('');
   const [noteName, setNoteName] = useState<string>('');
   const [noteDescription, setNoteDescription] = useState<string>('');
   const createButtonRef = useRef<HTMLDivElement>(null);
@@ -53,18 +54,32 @@ export default function CreatePage({ slug }: { slug: string }) {
       });
   };
 
+  useEffect(() => {
+    const filtered = noteId.replace(/[^a-z0-9-]/g, '');
+    if (noteId !== filtered) {
+      setNoteIdErrorMessage('영문 소문자, 숫자, - 만 입력 가능합니다.');
+    } else {
+      setNoteIdErrorMessage('');
+    }
+  }, [noteId]);
+
   return (
     <div className="mx-auto w-[90%] max-w-[800px] py-60">
       <h1 className="font-semibold">NoteSpace Not Found</h1>
       <div>새 노트를 생성하시겠습니까?</div>
       <div className="my-4 flex flex-col gap-2">
-        <input
-          className="w-[200px] rounded-lg border-1 border-solid p-2 focus:outline-none"
-          placeholder="노트 아이디"
-          value={noteId}
-          onChange={handleNoteIdChange}
-          onKeyDown={handleKeyDown}
-        ></input>
+        <div className="flex flex-row items-center gap-2">
+          <input
+            className="w-[200px] rounded-lg border-1 border-solid p-2 focus:outline-none"
+            placeholder="노트 아이디"
+            value={noteId}
+            onChange={handleNoteIdChange}
+            onKeyDown={handleKeyDown}
+          ></input>
+          {noteIdErrorMessage && (
+            <div className="text-sm text-red-500">{noteIdErrorMessage}</div>
+          )}
+        </div>
         <input
           className="w-[200px] rounded-lg border-1 border-solid p-2 focus:outline-none"
           placeholder="노트 이름"

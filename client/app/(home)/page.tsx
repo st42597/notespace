@@ -8,6 +8,7 @@ import RecentNoteList from './_components/RecentNoteList';
 export default function Home() {
   const router = useRouter();
   const [searchUrl, setSearchUrl] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const [recentUpdatedNotes, setRecentUpdatedNotes] = useState<Note[]>([]);
   const searchButtonRef = useRef<HTMLDivElement>(null);
 
@@ -18,9 +19,15 @@ export default function Home() {
   };
 
   const handleSearch = () => {
-    if (searchUrl) {
-      router.push(`/${searchUrl}`);
+    if (!searchUrl) return;
+
+    const filtered = searchUrl.replace(/[^a-z0-9-]/g, '');
+    if (searchUrl !== filtered) {
+      setErrorMessage('영문 소문자, 숫자, - 만 입력 가능합니다.');
+      return;
     }
+
+    router.push(`/${searchUrl}`);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -46,6 +53,15 @@ export default function Home() {
     fetchNoteList();
   }, []);
 
+  useEffect(() => {
+    const filtered = searchUrl.replace(/[^a-z0-9-]/g, '');
+    if (searchUrl !== filtered) {
+      setErrorMessage('영문 소문자, 숫자, - 만 입력 가능합니다.');
+    } else {
+      setErrorMessage('');
+    }
+  }, [searchUrl]);
+
   return (
     <div className="flex h-screen flex-col items-center justify-center gap-8">
       <div className="flex flex-col items-center justify-center">
@@ -66,6 +82,9 @@ export default function Home() {
             검색
           </div>
         </div>
+        {errorMessage && (
+          <div className="mt-2 text-sm text-red-500">{errorMessage}</div>
+        )}
       </div>
       <div>
         <span className="text-xl">Recently Updated Notes</span>
