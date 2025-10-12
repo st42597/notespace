@@ -11,5 +11,7 @@ COPY --from=builder /client/.next ./.next
 COPY --from=builder /client/public ./public
 COPY --from=builder /client/package*.json ./
 COPY --from=builder /client/node_modules ./node_modules
+RUN chown -R node:node /client
+USER node
 EXPOSE 3000
 CMD ["npm", "run", "dev"]

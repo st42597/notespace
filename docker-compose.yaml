@@ -6,6 +6,7 @@ services:
     volumes:
       - ./client:/client
       - /client/node_modules
+      - /client/.next
     restart: always
   api-server:
     build:
