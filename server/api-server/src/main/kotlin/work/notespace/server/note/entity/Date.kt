@@ -13,9 +13,9 @@ import java.time.LocalDateTime
 abstract class Date(
     @CreatedDate
     @Column(name = "CREATED_AT", updatable = false, nullable = false)
-    var createdAt: LocalDateTime? = null,
+    var createdAt: LocalDateTime = LocalDateTime.now(),
 
     @LastModifiedDate
     @Column(name = "UPDATED_AT", nullable = false)
-    var updatedAt: LocalDateTime? = null
+    var updatedAt: LocalDateTime = LocalDateTime.now()
 )

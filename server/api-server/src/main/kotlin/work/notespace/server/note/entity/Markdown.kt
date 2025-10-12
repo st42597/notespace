@@ -14,7 +14,7 @@ class Markdown(
     @Column
     val slug: String,
 
-    @Column
+    @Column(columnDefinition = "TEXT")
     var content: String = "",
 ) : Date() {
     fun toDto(): MarkdownDto {
