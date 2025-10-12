@@ -1,5 +1,6 @@
 'use client';
 import NoteHeader from './_components/NoteHeader';
+import Tiptap from './_components/Tiptap';
 import { useParams, useRouter } from 'next/navigation';
 import { useState, useEffect, useRef } from 'react';
 import axios, { AxiosError } from 'axios';
@@ -15,10 +16,8 @@ export default function NotePage() {
   const isRecentlyTypedRef = useRef(isRecentlyTyped);
   const markdownContentRef = useRef(markdownContent);
 
-  const handleMarkdownChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>,
-  ) => {
-    setMarkdownContent(event.target.value);
+  const handleMarkdownChange = (content: string) => {
+    setMarkdownContent(content);
     setIsRecentlyTyped(true);
   };
 
@@ -30,7 +29,7 @@ export default function NotePage() {
       axios.patch(`/api/notes/${id}/markdown`, {
         content: markdownContentRef.current,
       });
-    }, 1000);
+    }, 5000);
   };
 
   const handleBlur = () => {
@@ -78,7 +77,7 @@ export default function NotePage() {
     fetchNote();
     fetchMarkdown();
 
-    const intervalId = setInterval(fetchMarkdown, 1000);
+    const intervalId = setInterval(fetchMarkdown, 5000);
 
     return () => clearInterval(intervalId);
   }, []);
@@ -93,13 +92,12 @@ export default function NotePage() {
       <main>
         <div className="mx-auto max-w-[800px]">
           <h1>Markdown</h1>
-          <textarea
-            className="h-[400px] w-[600px] resize-none border-1 border-solid p-2 focus:outline-none"
+          <Tiptap
             value={markdownContent}
             onChange={handleMarkdownChange}
             onFocus={handleFocus}
             onBlur={handleBlur}
-          ></textarea>
+          />
         </div>
       </main>
     </>
