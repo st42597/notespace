@@ -7,10 +7,12 @@ services:
       - ./client:/client
       - /client/node_modules
       - /client/.next
+    networks:
+      - notespace-shared
     restart: always
   api-server:
     build:
-      context: ./server/api-server
+      context: ./api-server
     container_name: notespace-api-server
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/mydb
@@ -20,19 +22,26 @@ services:
       - "8088:5000" # swagger
     depends_on:
       - db
+    networks:
+      - default
+      - notespace-shared
     restart: always
   bot-server:
     build:
-      context: ./server/bot-server
+      context: ./bot-server
     container_name: notespace-bot-server
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/mydb
       SPRING_DATASOURCE_USERNAME: sh
       SPRING_DATASOURCE_PASSWORD: 1234
       OPENAI_API_KEY: ${OPENAI_API_KEY}
+      NOTE_API_BASE_URL: http://api-server:5000
     depends_on:
       - api-server
       - db
+    networks:
+      - default
+      - notespace-shared
     restart: always
   db:
     image: postgres:latest
@@ -45,16 +54,8 @@ services:
     volumes:
       - ./data:/var/lib/postgresql/data
       - ./postgreSQL/init.sql:/docker-entrypoint-initdb.d/init.sql
-  nginx:
-    image: nginx:latest
-    container_name: notespace-nginx
-    volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-    ports:
-      - "8081:80"
-      - "80:80"
-    depends_on:
-      - client
-      - api-server
-      - bot-server
-    restart: always
+
+networks:
+  notespace-shared:
+    name: notespace-shared
+    external: true

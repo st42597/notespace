@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import work.notespace.botserver.bot.dto.NoteDto
 import work.notespace.botserver.bot.client.request.CreateNoteRequest
 
-@FeignClient(name = "noteApi", url = "http://notespace-api-server:5000")
+@FeignClient(name = "noteApi", url = "\${note.api-base-url:http://api-server:5000}")
 interface NoteClient {
     @GetMapping("/notes")
     fun getNote(
